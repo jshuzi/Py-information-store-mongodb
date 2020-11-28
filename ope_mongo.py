@@ -24,14 +24,18 @@ def get_music_info(url):
     html = requests.get(url, headers=headers)
     selector = etree.HTML(html.text)
     name = selector.xpath('//*[@id="wrapper"]/h1/span/text()')[0]
-    author = re.findall('表演�?.*?>(.*?)</a>',html.text,re.S)[0]
-    styles = re.findall('<span class="p1">流派:</span>&nbsp;(.*?)<br>',html.text, re.S)
+    #author = re.findall('表演者:.*?>(.*?)</a>',html.text,re.S)[0]
+    author = re.findall('表演者:.*?>(.*?)</a>',html.text,re.S)[0]
+    #styles = re.findall('<span class="p1">流派:</span>&nbsp;(.*?)<br>',html.text, re.S)
+    styles = re.findall('<span class="pl">流派:</span>&nbsp;(.*?)<br/>',html.text,re.S)
     if len(styles) == 0:
         style = '未知'
     else:
         style = styles[0].strip()
-    time = re.findall('发行时间:</span>&nbsp;(.*?)<br />' ,html.text, re.S)[0].strip()
-    publishers = re.findall('出版�?(.*?)<br>' , html.text, re.S)
+    #time = re.findall('发行时间:</span>&nbsp;(.*?)<br/>',html.text, re.S)[0].strip()
+    time = re.findall('发行时间:</span>&nbsp;(.*?)<br/>',html.text,re.S)[0].strip()
+    #publishers = re.findall('出版者:.*?>(.*?)</a>',html.text,re.S)
+    publishers = re.findall('出版者:.*?>(.*?)</a>',html.text,re.S)
     if  len(publishers == 0):
         publisher = '未知'
     else:
